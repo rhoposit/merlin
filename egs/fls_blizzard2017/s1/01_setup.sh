@@ -27,14 +27,14 @@ mkdir -p ${voice_dir}
 mkdir -p ${acoustic_dir}
 mkdir -p ${duration_dir}
 
-data_dir="blizzard2017-merlin-benchmark-data"
-#data_dir=slt_arctic_demo_data
+#data_dir="blizzard2017-merlin-benchmark-data"
+data_dir=slt_arctic_demo_data
 
 if [[ ! -f ${data_dir}.zip ]]; then
     echo "downloading data....."
     rm -f ${data_dir}.zip
-#    data_url=http://104.131.174.95/${data_dir}.zip
-    data_url=http://datashare.is.ed.ac.uk/bitstream/handle/10283/2909/blizzard2017-merlin-benchmark-data.zip
+    data_url=http://104.131.174.95/${data_dir}.zip
+#    data_url=http://datashare.is.ed.ac.uk/bitstream/handle/10283/2909/blizzard2017-merlin-benchmark-data.zip
     if hash wget 2>/dev/null; then
         wget $data_url
     elif hash curl 2>/dev/null; then
