@@ -1,8 +1,9 @@
-#!/bin/bash -e
+#!/bin/sh
 
-global_config_file=conf/global_settings.cfg
-source $global_config_file
 
+
+#global_config_file=conf/global_settings.cfg
+#source $global_config_file
 #if test "$#" -ne 1; then
 #    echo "################################"
 #    echo "Usage:"
@@ -15,6 +16,8 @@ source $global_config_file
 
 #duration_conf_file=$1
 duration_conf_file=conf/duration_merlin-benchmark.conf
+MerlinDir=/jmain01/home/JAD003/sxr01/jxw04-sxr01/merlin
+
 
 ### Step 3: train duration model ###
 echo "Step 3:"
