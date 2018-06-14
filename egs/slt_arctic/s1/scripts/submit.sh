@@ -8,7 +8,7 @@ src_dir=$(dirname $1)
 # Source install-related environment variables
 source ${src_dir}/setup_env.sh
 
-#use_gpu_lock=true
+use_gpu_lock=true
 
 if [ "$use_gpu_lock" = true ]; then
     # Try to lock a GPU...

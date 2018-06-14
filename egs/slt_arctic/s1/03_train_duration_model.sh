@@ -13,7 +13,7 @@ source $global_config_file
 #    exit 1
 #fi
 
-duration_conf_file=conf/duration_merlin-benchmark.conf
+duration_conf_file=conf/duration_slt_arctic_demo.conf
 
 ### Step 3: train duration model ###
 echo "Step 3:"
