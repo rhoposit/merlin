@@ -19,6 +19,6 @@ duration_conf_file=conf/duration_merlin-benchmark.conf
 ### Step 3: train duration model ###
 echo "Step 3:"
 echo "training duration model..."
-./scripts/submit.sh ${MerlinDir}/src/run_merlin.py $duration_conf_file
+./scripts/submit.sh ${MerlinDir}/src/run_merlin.py $duration_conf_file >> duration_log.txt 2>&1 
 
 
