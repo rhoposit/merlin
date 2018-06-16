@@ -15,7 +15,7 @@ else
 fi
 
 ### define few variables here
-testDir=experiments/${Voice}/test_synthesis
+testDir=/afs/inf.ed.ac.uk/group/project/s1738075/flsblizzard17/experiments/${Voice}/test_synthesis
 
 txt_dir=${testDir}/txt
 txt_file=${testDir}/utts.data
