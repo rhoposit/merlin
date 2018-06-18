@@ -20,6 +20,8 @@ testDir=/afs/inf.ed.ac.uk/group/project/s1738075/flsblizzard17/experiments/${Voi
 txt_dir=${testDir}/txt
 txt_file=${testDir}/utts.data
 
+echo $txt_dir
+
 if [[ ! -d "${txt_dir}" ]] && [[ ! -f "${txt_file}" ]]; then
     echo "Please give text as input: either 1 or 2"
     echo "1. ${txt_dir}  -- a text directory containing text files"

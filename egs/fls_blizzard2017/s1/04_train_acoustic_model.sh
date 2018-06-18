@@ -20,7 +20,7 @@ source $global_config_file
 #    exit 1
 #fi
 
-acoustic_conf_file=conf/duration_merlin-benchmark.conf
+acoustic_conf_file=conf/acoustic_merlin-benchmark.conf
 
 
 ### Step 4: train acoustic model ###
