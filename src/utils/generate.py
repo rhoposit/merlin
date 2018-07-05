@@ -226,6 +226,20 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
         mgc_file_name = files['mgc']
         bap_file_name = files['bap']
 
+        # switch lf0 file to lf0 data from template
+        # evaluate template selection & other values
+        # re-create lfo from template
+        lf0_file = files['lf0']
+        new_lf0_file = lf0_file+".rev"
+        data, frame_number = load_binary_file(lf0_file, 2)
+        output = open(new_lf0_file, "wb")
+        data_1 = data[np.s_[::,1::1]]
+        output.write(data_1)
+        output.close()
+        files['lf0'] = new_lf0_file
+
+
+
         cur_dir = os.getcwd()
         os.chdir(gen_dir)
 
