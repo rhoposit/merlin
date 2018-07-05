@@ -303,7 +303,7 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
             run_process('{synworld} {fl} {sr} {f0} {sp} {ap} {wav}'
                          .format(synworld=WORLD['SYNTHESIS'], fl=cfg.fl, sr=cfg.sr, f0=files['f0'], sp=files['sp'], ap=files['ap'], wav=files['wav']))
 
-            run_process('rm -f {ap} {sp}'.format(ap=files['ap'],sp=files['sp']))
+#            run_process('rm -f {ap} {sp} {f0}'.format(ap=files['ap'],sp=files['sp'],f0=files['f0']))
 
         os.chdir(cur_dir)
 

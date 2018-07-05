@@ -1233,10 +1233,10 @@ if __name__ == '__main__':
     # get a logger for this main function
     logger = logging.getLogger("main")
 
-
     if len(sys.argv) != 2:
         logger.critical('usage: run_merlin.sh [config file name]')
         sys.exit(1)
+
 
     config_file = sys.argv[1]
 
@@ -1244,6 +1244,7 @@ if __name__ == '__main__':
     cfg.configure(config_file)
 
 
+    
     logger.info('Installation information:')
     logger.info('  Merlin directory: '+os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)))
     logger.info('  PATH:')
