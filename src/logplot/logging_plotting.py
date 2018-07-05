@@ -52,9 +52,9 @@ import matplotlib
 
 # should make this user-configurable - TO DO later
 # this line has to come before the import of matplotlib.pyplot
-matplotlib.use('PDF')
+#matplotlib.use('PDF')
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pylab
 
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter

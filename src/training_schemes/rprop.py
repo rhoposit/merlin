@@ -43,8 +43,8 @@ import theano.tensor as T
 
 import matplotlib
 # Force matplotlib to not use any Xwindows backend.
-matplotlib.use('Agg')
-import  matplotlib.pyplot as plt
+#matplotlib.use('Agg')
+#import  matplotlib.pyplot as plt
 from collections import OrderedDict
 
 def compile_RPROP_train_function(model, gparams, learning_rate=0.001, rprop_algo=2, params_to_update=[]):
@@ -147,19 +147,20 @@ def get_stats(theano_shared_params):
 
 ## This is generic, and not specific to RPROP:
 def plot_weight_histogram(model, outfile, lower=-0.25, upper=0.25):
-    n = len(model.params)
-    plt.clf()
-    for (i, theano_shared_params) in enumerate(model.params):
-        weights = theano_shared_params.get_value()
-        values = weights.flatten()
-        plt.subplot(n,1,i+1)
-        frame = plt.gca()
-        frame.axes.get_yaxis().set_ticks([])
-        if i != n-1:  ## only keep bottom one
-            frame.axes.get_xaxis().set_ticks([])
-        plt.hist(values, 100)
-        plt.xlim(lower, upper)
-        print('   param no. %s'%(i))
-        print(get_stats(theano_shared_params))
-    plt.savefig(outfile)
-    print('Made plot %s'%(outfile))
+    return
+#    n = len(model.params)
+#    plt.clf()
+#    for (i, theano_shared_params) in enumerate(model.params):
+#        weights = theano_shared_params.get_value()
+#        values = weights.flatten()
+#        plt.subplot(n,1,i+1)
+#        frame = plt.gca()
+#        frame.axes.get_yaxis().set_ticks([])
+#        if i != n-1:  ## only keep bottom one
+#            frame.axes.get_xaxis().set_ticks([])
+#        plt.hist(values, 100)
+#        plt.xlim(lower, upper)
+#        print('   param no. %s'%(i))
+#        print(get_stats(theano_shared_params))
+#    plt.savefig(outfile)
+#    print('Made plot %s'%(outfile))
