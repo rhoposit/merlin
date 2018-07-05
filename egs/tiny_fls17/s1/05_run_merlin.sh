@@ -14,7 +14,8 @@ source $global_config_file
 #    exit 1
 #fi
 
-test_synth_config_file=$1
+test_synth_config_file=conf/test_synth_tiny_fls17.conf
+
 
 
 ### Step 5: synthesize speech ###
