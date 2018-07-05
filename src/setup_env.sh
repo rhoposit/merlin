@@ -18,7 +18,7 @@ export MERLIN_THEANO_FLAGS
 
 # Print some basic informations
 echo Architecture: `uname -m`
-echo Distribution: `lsb_release -d |sed 's/Description://'`
+#echo Distribution: `lsb_release -d |sed 's/Description://'`
 echo HOSTNAME=$HOSTNAME
 echo USER=$USER
 echo " "
