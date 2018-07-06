@@ -244,6 +244,7 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
         cur_dir = os.getcwd()
         os.chdir(gen_dir)
 
+'''        
         ### post-filtering
         if cfg.do_post_filtering:
 
@@ -268,7 +269,7 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
         if cfg.do_post_filtering and cfg.apply_GV:
             logger.critical('Both smoothing techniques together can\'t be applied!!\n' )
             raise
-
+'''
         ###mgc to sp to wav
         if cfg.vocoder_type == 'STRAIGHT':
             run_process('{mgc2sp} -a {alpha} -g 0 -m {order} -l {fl} -o 2 {mgc} > {sp}'
