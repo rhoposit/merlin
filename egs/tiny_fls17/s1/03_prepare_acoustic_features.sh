@@ -35,9 +35,9 @@ if [ "$prepare_feats" = true ]; then
     python ${MerlinDir}/misc/scripts/vocoder/${Vocoder,,}/extract_features_for_merlin.py ${MerlinDir} ${wav_dir} ${feat_dir} $SamplingFreq 
 fi
 
-if [ "$copy" = true ]; then
-    echo "Copying features to acoustic data directory..."
-    acoustic_data_dir=experiments/${Voice}/acoustic_model/data
-    cp -r ${feat_dir}/* $acoustic_data_dir
-    echo "done...!"
-fi
+#if [ "$copy" = true ]; then
+#    echo "Copying features to acoustic data directory..."
+#    acoustic_data_dir=experiments/${Voice}/acoustic_model/data
+#    cp -r ${feat_dir}/* $acoustic_data_dir
+#    echo "done...!"
+#fi
