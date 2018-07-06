@@ -34,7 +34,7 @@ if [ -d "$gen_wav_dir" ]; then
     cp $gen_wav_dir/*.lf0 $gen_fo_dir
     cd ${gen_wav_dir}
     rm -f weight
-    rm -f *.!(wav)
+    rm -f *.!(wav||sp|ap)
 fi
 
 cd ${current_working_dir}

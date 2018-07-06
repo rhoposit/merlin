@@ -215,16 +215,17 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
         logger.info('creating waveform for %4d of %4d: %s' % (counter,max_counter,filename) )
         counter=counter+1
         base   = filename
-        files = {'sp'  : base + cfg.sp_ext,
-                 'mgc' : base + cfg.mgc_ext,
+        files = {'sp'  : base + '.sp',
+#                 'mgc' : base + cfg.mgc_ext,
                  'f0'  : base + '.f0',
-                 'lf0' : base + cfg.lf0_ext,
+                 'lf0' : base + '.lf0',
                  'ap'  : base + '.ap',
-                 'bap' : base + cfg.bap_ext,
+#                 'bap' : base + cfg.bap_ext,
                  'wav' : base + '.wav'}
 
-        mgc_file_name = files['mgc']
-        bap_file_name = files['bap']
+#        mgc_file_name = files['mgc']
+#        bap_file_name = files['bap']
+
 
 #        # switch lf0 file to lf0 data from template
 #        # evaluate template selection & other values
@@ -291,14 +292,14 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
 
             run_process('{sopr} -magic -1.0E+10 -EXP -MAGIC 0.0 {lf0} | {x2x} +fd > {f0}'.format(sopr=SPTK['SOPR'], lf0=files['lf0'], x2x=SPTK['X2X'], f0=files['f0']))
 
-            run_process('{sopr} -c 0 {bap} | {x2x} +fd > {ap}'.format(sopr=SPTK['SOPR'],bap=files['bap'],x2x=SPTK['X2X'],ap=files['ap']))
+#            run_process('{sopr} -c 0 {bap} | {x2x} +fd > {ap}'.format(sopr=SPTK['SOPR'],bap=files['bap'],x2x=SPTK['X2X'],ap=files['ap']))
 
             ### If using world v2, please comment above line and uncomment this
             #run_process('{mgc2sp} -a {alpha} -g 0 -m {order} -l {fl} -o 0 {bap} | {sopr} -d 32768.0 -P | {x2x} +fd > {ap}'
             #            .format(mgc2sp=SPTK['MGC2SP'], alpha=cfg.fw_alpha, order=cfg.bap_dim, fl=cfg.fl, bap=bap_file_name, sopr=SPTK['SOPR'], x2x=SPTK['X2X'], ap=files['ap']))
 
-            run_process('{mgc2sp} -a {alpha} -g 0 -m {order} -l {fl} -o 2 {mgc} | {sopr} -d 32768.0 -P | {x2x} +fd > {sp}'
-                        .format(mgc2sp=SPTK['MGC2SP'], alpha=cfg.fw_alpha, order=cfg.mgc_dim-1, fl=cfg.fl, mgc=mgc_file_name, sopr=SPTK['SOPR'], x2x=SPTK['X2X'], sp=files['sp']))
+#            run_process('{mgc2sp} -a {alpha} -g 0 -m {order} -l {fl} -o 2 {mgc} | {sopr} -d 32768.0 -P | {x2x} +fd > {sp}'
+#                        .format(mgc2sp=SPTK['MGC2SP'], alpha=cfg.fw_alpha, order=cfg.mgc_dim-1, fl=cfg.fl, mgc=mgc_file_name, sopr=SPTK['SOPR'], x2x=SPTK['X2X'], sp=files['sp']))
 
             run_process('{synworld} {fl} {sr} {f0} {sp} {ap} {wav}'
                          .format(synworld=WORLD['SYNTHESIS'], fl=cfg.fl, sr=cfg.sr, f0=files['f0'], sp=files['sp'], ap=files['ap'], wav=files['wav']))
