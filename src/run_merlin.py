@@ -439,6 +439,8 @@ def dnn_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_lis
 
     file_number = len(valid_file_list)
 
+    test_set = []
+    
     for i in range(file_number):  #file_number
         logger.info('generating %4d of %4d: %s' % (i+1,file_number,valid_file_list[i]) )
         fid_lab = open(valid_file_list[i], 'rb')
@@ -452,6 +454,9 @@ def dnn_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_lis
             test_set_x = numpy.reshape(test_set_x, (1, test_set_x.shape[0], n_ins))
             test_set_x = numpy.array(test_set_x, 'float32')
 
+        test_set.append(test_set_x)
+
+            
         predicted_parameter = dnn_model.parameter_prediction(test_set_x)
         predicted_parameter = predicted_parameter.reshape(-1, n_outs)
         predicted_parameter = predicted_parameter[0:n_rows]
@@ -463,6 +468,9 @@ def dnn_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_lis
         predicted_parameter.tofile(fid)
         logger.debug('saved to %s' % out_file_list[i])
         fid.close()
+    test_file = "t_data.npy"
+    test = numpy.vstack(test_set)
+    numpy.save(test_file, test)
 
 ##generate bottleneck layer as features
 def dnn_hidden_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_list, bottleneck_index):
