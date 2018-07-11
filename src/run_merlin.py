@@ -149,6 +149,45 @@ def load_covariance(var_file_dict, out_dimension_dict):
     return  var
 
 
+def dump_train_features(train_xy_file_list, valid_xy_file_list):
+    (train_x_file_list, train_y_file_list) = train_xy_file_list
+    (valid_x_file_list, valid_y_file_list) = valid_xy_file_list
+
+    logger.debug('Creating training   data provider')
+    train_data_reader = ListDataProvider(x_file_list = train_x_file_list, y_file_list = train_y_file_list,
+                            n_ins = n_ins, n_outs = n_outs, buffer_size = buffer_size, 
+                            sequential = sequential_training, shuffle = True)
+
+    logger.debug('Creating validation data provider')
+    valid_data_reader = ListDataProvider(x_file_list = valid_x_file_list, y_file_list = valid_y_file_list,
+                            n_ins = n_ins, n_outs = n_outs, buffer_size = buffer_size, 
+                            sequential = sequential_training, shuffle = False)
+
+    shared_train_set_xy, temp_train_set_x, temp_train_set_y = train_data_reader.load_one_partition()
+    train_set_x, train_set_y = shared_train_set_xy
+
+    if cfg.rnn_batch_training:
+        print "doing batch..."
+    shared_valid_set_xy, temp_valid_set_x, temp_valid_set_y = valid_data_reader.load_one_partition()
+    valid_set_x, valid_set_y = shared_valid_set_xy
+    train_data_reader.reset()
+    valid_data_reader.reset()
+    xfile = "x_data.npy"
+    xfile_list = "x_data_list.npy"
+    vfile = "v_data.npy"
+    vfile_list = "v_data_list.npy"
+    train_files = [x.split("/")[-1] for x in train_x_file_list]
+    valid_files = [x.split("/")[-1] for x in valid_x_file_list]
+    numpy.save(xfile_list, "\n".join(train_files))
+    numpy.save(vfile_list, "\n".join(valid_files))
+    
+    numpy.save(xfile, temp_train_set_x)
+    numpy.save(vfile, temp_valid_set_x)
+    print temp_train_set_x.shape
+    print temp_train_set_y.shape
+
+
+
 def train_DNN(train_xy_file_list, valid_xy_file_list, \
               nnets_file_name, n_ins, n_outs, ms_outs, hyper_params, buffer_size, plot=False, var_dict=None,
               cmp_mean_vector = None, cmp_std_vector = None, init_dnn_model_file = None):
@@ -219,32 +258,14 @@ def train_DNN(train_xy_file_list, valid_xy_file_list, \
     if cfg.rnn_batch_training:
         train_data_reader.set_rnn_params(training_algo=cfg.training_algo, batch_size=cfg.batch_size, seq_length=cfg.seq_length, merge_size=cfg.merge_size, bucket_range=cfg.bucket_range)
         valid_data_reader.reshape_input_output()
-        print "doing batch..."
     
     shared_train_set_xy, temp_train_set_x, temp_train_set_y = train_data_reader.load_one_partition()
     train_set_x, train_set_y = shared_train_set_xy
 
-    if cfg.rnn_batch_training:
-        print "doing batch..."
     shared_valid_set_xy, temp_valid_set_x, temp_valid_set_y = valid_data_reader.load_one_partition()
     valid_set_x, valid_set_y = shared_valid_set_xy
     train_data_reader.reset()
     valid_data_reader.reset()
-    xfile = "x_data.npy"
-    xfile_list = "x_data_list.npy"
-    vfile = "v_data.npy"
-    vfile_list = "v_data_list.npy"
-    train_files = [x.split("/")[-1] for x in train_x_file_list]
-    valid_files = [x.split("/")[-1] for x in valid_x_file_list]
-    numpy.save(xfile_list, "\n".join(train_files))
-    numpy.save(vfile_list, "\n".join(valid_files))
-    
-    numpy.save(xfile, temp_train_set_x)
-    numpy.save(vfile, temp_valid_set_x)
-    print temp_train_set_x.shape
-    print temp_train_set_y.shape
-    sys.exit()
-
 
     ##temporally we use the training set as pretrain_set_x.
     ##we need to support any data for pretraining
@@ -888,6 +909,8 @@ def main_function(cfg):
             elif cfg.switch_to_tensorflow:
                 tf_instance.train_tensorflow_model()
             else:
+                dump_train_features(train_xy_file_list = (train_x_file_list, train_y_file_list),  valid_xy_file_list = (valid_x_file_list, valid_y_file_list))
+                sys.exit()
                 train_DNN(train_xy_file_list = (train_x_file_list, train_y_file_list), \
                       valid_xy_file_list = (valid_x_file_list, valid_y_file_list), \
                       nnets_file_name = nnets_file_name, \
