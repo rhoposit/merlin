@@ -149,42 +149,27 @@ def load_covariance(var_file_dict, out_dimension_dict):
     return  var
 
 
-def dump_train_features(train_xy_file_list, valid_xy_file_list):
-    (train_x_file_list, train_y_file_list) = train_xy_file_list
-    (valid_x_file_list, valid_y_file_list) = valid_xy_file_list
-
-    logger.debug('Creating training   data provider')
-    train_data_reader = ListDataProvider(x_file_list = train_x_file_list, y_file_list = train_y_file_list,
-                            n_ins = n_ins, n_outs = n_outs, buffer_size = buffer_size, 
-                            sequential = sequential_training, shuffle = True)
-
-    logger.debug('Creating validation data provider')
-    valid_data_reader = ListDataProvider(x_file_list = valid_x_file_list, y_file_list = valid_y_file_list,
-                            n_ins = n_ins, n_outs = n_outs, buffer_size = buffer_size, 
-                            sequential = sequential_training, shuffle = False)
-
-    shared_train_set_xy, temp_train_set_x, temp_train_set_y = train_data_reader.load_one_partition()
-    train_set_x, train_set_y = shared_train_set_xy
-
-    if cfg.rnn_batch_training:
-        print "doing batch..."
-    shared_valid_set_xy, temp_valid_set_x, temp_valid_set_y = valid_data_reader.load_one_partition()
-    valid_set_x, valid_set_y = shared_valid_set_xy
-    train_data_reader.reset()
-    valid_data_reader.reset()
-    xfile = "x_data.npy"
-    xfile_list = "x_data_list.npy"
-    vfile = "v_data.npy"
-    vfile_list = "v_data_list.npy"
-    train_files = [x.split("/")[-1] for x in train_x_file_list]
-    valid_files = [x.split("/")[-1] for x in valid_x_file_list]
-    numpy.save(xfile_list, "\n".join(train_files))
-    numpy.save(vfile_list, "\n".join(valid_files))
     
-    numpy.save(xfile, temp_train_set_x)
-    numpy.save(vfile, temp_valid_set_x)
-    print temp_train_set_x.shape
-    print temp_train_set_y.shape
+def dump_features(x_file_list, ident, n_ins):
+    file_number = len(x_file_list)
+    for i in range(file_number):  #file_number
+        logger.info('generating %4d of %4d: %s' % (i+1,file_number,x_file_list[i]) )
+        fid_lab = open(x_file_list[i], 'rb')
+        features = numpy.fromfile(fid_lab, dtype=numpy.float32)
+        fid_lab.close()
+        features = features[:(n_ins * (features.size // n_ins))]
+        set_x = features.reshape((-1, n_ins))
+        n_rows = set_x.shape[0]
+        
+#        if reshape_io:
+#            set_x = numpy.reshape(set_x, (1, set_x.shape[0], n_ins))
+#            set_x = numpy.array(set_x, 'float32')
+
+        print set_x.shape
+        base = x_file_list[i].split("/")[-1].split(".")[0]
+        new_file = ident+"_data/"+base+".npy"
+        d = numpy.vstack(set_x)
+        numpy.save(new_file, d)
 
 
 
@@ -461,6 +446,8 @@ def dnn_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_lis
     file_number = len(valid_file_list)
 
     test_set = []
+    dump_features(valid_file_list, "test", n_ins)
+    sys.exit()
     
     for i in range(file_number):  #file_number
         logger.info('generating %4d of %4d: %s' % (i+1,file_number,valid_file_list[i]) )
@@ -489,9 +476,6 @@ def dnn_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_lis
         predicted_parameter.tofile(fid)
         logger.debug('saved to %s' % out_file_list[i])
         fid.close()
-    test_file = "t_data.npy"
-    test = numpy.vstack(test_set)
-    numpy.save(test_file, test)
 
 ##generate bottleneck layer as features
 def dnn_hidden_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_list, bottleneck_index):
@@ -909,7 +893,8 @@ def main_function(cfg):
             elif cfg.switch_to_tensorflow:
                 tf_instance.train_tensorflow_model()
             else:
-                dump_train_features(train_xy_file_list = (train_x_file_list, train_y_file_list),  valid_xy_file_list = (valid_x_file_list, valid_y_file_list))
+                dump_features(train_x_file_list, "train", lab_dim)
+                dump_features(valid_x_file_list, "valid", lab_dim)
                 sys.exit()
                 train_DNN(train_xy_file_list = (train_x_file_list, train_y_file_list), \
                       valid_xy_file_list = (valid_x_file_list, valid_y_file_list), \
