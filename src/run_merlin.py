@@ -167,7 +167,7 @@ def dump_features(x_file_list, ident, n_ins):
 
         print set_x.shape
         base = x_file_list[i].split("/")[-1].split(".")[0]
-        new_file = ident+"_data/"+base+".npy"
+        new_file = "x_"+ident+"/"+base+".npy"
         d = numpy.vstack(set_x)
         numpy.save(new_file, d)
 
