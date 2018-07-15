@@ -441,13 +441,16 @@ def dnn_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_lis
 
     plotlogger = logging.getLogger("plotting")
 
-    dnn_model = pickle.load(open(nnets_file_name, 'rb'))
-
-    file_number = len(valid_file_list)
 
     test_set = []
     dump_features(valid_file_list, "test", n_ins)
     sys.exit()
+
+
+    dnn_model = pickle.load(open(nnets_file_name, 'rb'))
+
+    file_number = len(valid_file_list)
+
     
     for i in range(file_number):  #file_number
         logger.info('generating %4d of %4d: %s' % (i+1,file_number,valid_file_list[i]) )
@@ -1279,7 +1282,7 @@ if __name__ == '__main__':
     config_file = sys.argv[1]
 
     config_file = os.path.abspath(config_file)
-    cfg.configure(config_file)
+    cfg.configureo(config_file)
 
 
     
