@@ -1282,7 +1282,7 @@ if __name__ == '__main__':
     config_file = sys.argv[1]
 
     config_file = os.path.abspath(config_file)
-    cfg.configureo(config_file)
+    cfg.configure(config_file)
 
 
     
