@@ -167,7 +167,7 @@ def dump_features(x_file_list, ident, n_ins):
 
         print set_x.shape
         base = x_file_list[i].split("/")[-1].split(".")[0]
-        new_file = "x_"+ident+"/"+base+".npy"
+        new_file = "/afs/inf.ed.ac.uk/group/project/s1738075/merlin_data/experiments/merlin-benchmark/template_predict/x_"+ident+"/"+base+".npy"
         d = numpy.vstack(set_x)
         numpy.save(new_file, d)
 
