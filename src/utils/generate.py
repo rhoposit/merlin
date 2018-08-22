@@ -210,6 +210,7 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
     counter=1
     max_counter = len(file_id_list)
 
+    
     for filename in file_id_list:
 
         logger.info('creating waveform for %4d of %4d: %s' % (counter,max_counter,filename) )

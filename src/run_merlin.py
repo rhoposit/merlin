@@ -443,8 +443,8 @@ def dnn_generation(valid_file_list, nnets_file_name, n_ins, n_outs, out_file_lis
 
 
     test_set = []
-    dump_features(valid_file_list, "test", n_ins)
-    sys.exit()
+#    dump_features(valid_file_list, "test", n_ins)
+#    sys.exit()
 
 
     dnn_model = pickle.load(open(nnets_file_name, 'rb'))
@@ -896,9 +896,9 @@ def main_function(cfg):
             elif cfg.switch_to_tensorflow:
                 tf_instance.train_tensorflow_model()
             else:
-                dump_features(train_x_file_list, "train", lab_dim)
-                dump_features(valid_x_file_list, "valid", lab_dim)
-                sys.exit()
+#                dump_features(train_x_file_list, "train", lab_dim)
+#                dump_features(valid_x_file_list, "valid", lab_dim)
+#                sys.exit()
                 train_DNN(train_xy_file_list = (train_x_file_list, train_y_file_list), \
                       valid_xy_file_list = (valid_x_file_list, valid_y_file_list), \
                       nnets_file_name = nnets_file_name, \
