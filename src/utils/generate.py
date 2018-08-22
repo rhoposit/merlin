@@ -216,12 +216,14 @@ def wavgen_straight_type_vocoder(gen_dir, file_id_list, cfg, logger):
         logger.info('creating waveform for %4d of %4d: %s' % (counter,max_counter,filename) )
         counter=counter+1
         base   = filename
-        files = {'sp'  : base + '.sp',
+        files = {'sp'  : base + cfg.sp_ext,
+                 'mgc' : base + cfg.mgc_ext,
                  'f0'  : base + '.f0',
-                 'lf0' : base + '.lf0',
+                 'lf0' : base + cfg.lf0_ext,
                  'ap'  : base + '.ap',
+                 'bap' : base + cfg.bap_ext,
                  'wav' : base + '.wav'}
-
+        
 #        # switch lf0 file to lf0 data from template
 #        # evaluate template selection & other values
 #        # re-create lfo from template
